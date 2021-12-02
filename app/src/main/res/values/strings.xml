@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">StorageManager</string>
+    <string name="name">Name</string>
+    <string name="description">Description</string>
+    <string name="category">Category</string>
+    <string name="new_storage_item">New Storage Item</string>
+    <string name="edit_storage_item">Edit Storage Item</string>
+    <string name="edit_storage_item_category">Edit Category</string>
+    <string name="button_ok">OK</string>
+    <string name="button_cancel">Cancel</string>
+    <string name="newName">New name:</string>
+    <string name="newDescription">New description:</string>
+</resources>
