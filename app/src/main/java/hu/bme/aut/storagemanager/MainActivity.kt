@@ -53,14 +53,8 @@ class MainActivity : AppCompatActivity(), StorageAdapter.StorageItemClickListene
         }
     }
 
-    override fun onStorageItemEdited(item: StorageItem, oldCategory: String) {
-        thread {
-            database.storageItemDao().updateCategories(item.category, oldCategory)
-            runOnUiThread {
-                adapter.editItem(item, oldCategory)
-            }
-            Log.d("MainActivity", "StorageItem edit was successful")
-        }
+    override fun onStorageItemEdited(item: StorageItem) {
+        //MainActivity does nothing with StorageItem
     }
 
     private fun initRecyclerView() {
@@ -83,7 +77,7 @@ class MainActivity : AppCompatActivity(), StorageAdapter.StorageItemClickListene
     override fun onItemDelete(item: StorageItem) {
         thread {
             database.storageItemDao().deleteItemsByCategory(item.category)
-            Log.d("MainActivity", "StorageItems delete by category was successful")
+            Log.d("MainActivity", "Category delete was successful")
         }
     }
 
@@ -110,7 +104,12 @@ class MainActivity : AppCompatActivity(), StorageAdapter.StorageItemClickListene
             runOnUiThread {
                 adapter.editItem(item, oldCategory)
             }
-            Log.d("MainActivity", "StorageItem edit was successful")
+            Log.d("MainActivity", "Category edit was successful")
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        loadItemsInBackground()
     }
 }

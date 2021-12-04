@@ -6,14 +6,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
-import hu.bme.aut.storagemanager.MainActivity
+import hu.bme.aut.storagemanager.ItemViewActivity
 import hu.bme.aut.storagemanager.data.StorageItem
 import hu.bme.aut.storagemanager.databinding.DialogStorageItemBinding
 
 class StorageItemDialogFragment : DialogFragment() {
     interface StorageItemDialogListener {
         fun onStorageItemCreated(newItem: StorageItem)
-        fun onStorageItemEdited(item: StorageItem, oldCategory: String)
+        fun onStorageItemEdited(item: StorageItem)
     }
 
     private lateinit var listener: StorageItemDialogListener
@@ -28,9 +28,9 @@ class StorageItemDialogFragment : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val arguments = this.arguments
-        if(arguments != null && arguments.containsKey(MainActivity.KEY_ITEM_CATEGORY_TO_EDIT)){
+        if(arguments != null && arguments.containsKey(ItemViewActivity.KEY_ITEM_TO_EDIT)){
             binding = DialogStorageItemBinding.inflate(LayoutInflater.from(context))
-            val item = arguments.getSerializable(MainActivity.KEY_ITEM_CATEGORY_TO_EDIT) as StorageItem
+            val item = arguments.getSerializable(ItemViewActivity.KEY_ITEM_TO_EDIT) as StorageItem
             binding.etName.setText(item.name)
             binding.etCategory.setText(item.category)
             binding.etDescription.setText(item.description)
@@ -40,7 +40,7 @@ class StorageItemDialogFragment : DialogFragment() {
                 .setView(binding.root)
                 .setPositiveButton(hu.bme.aut.storagemanager.R.string.button_ok) { dialogInterface, i ->
                     if (isValid()) {
-                        listener.onStorageItemEdited(getEditedStorageItem(), (arguments.getSerializable(MainActivity.KEY_ITEM_CATEGORY_TO_EDIT) as StorageItem).category)
+                        listener.onStorageItemEdited(getEditedStorageItem())
                     }
                 }
                 .setNegativeButton(hu.bme.aut.storagemanager.R.string.button_cancel, null)
@@ -70,7 +70,7 @@ class StorageItemDialogFragment : DialogFragment() {
     )
 
     private fun getEditedStorageItem() = StorageItem(
-        id = (arguments?.getSerializable(MainActivity.KEY_ITEM_CATEGORY_TO_EDIT) as StorageItem).id,
+        id = (arguments?.getSerializable(ItemViewActivity.KEY_ITEM_TO_EDIT) as StorageItem).id,
         name = binding.etName.text.toString(),
         description = binding.etDescription.text.toString(),
         category = binding.etCategory.text.toString()

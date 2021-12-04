@@ -1,12 +1,9 @@
 package hu.bme.aut.storagemanager
 
-import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.LinearLayoutManager
 import hu.bme.aut.storagemanager.adapter.ItemAdapter
 import hu.bme.aut.storagemanager.data.StorageItem
@@ -18,6 +15,8 @@ import kotlin.concurrent.thread
 class ItemViewActivity : AppCompatActivity(), ItemAdapter.StorageItemClickListener, StorageItemDialogFragment.StorageItemDialogListener {
     companion object{
         const val KEY_ITEM_TO_EDIT = "KEY_ITEM_TO_EDIT"
+        const val KEY_ITEM = "KEY_ITEM"
+        const val KEY_ITEM_NAME = "KEY_ITEM_NAME"
     }
     private lateinit var binding: ActivityItemViewBinding
 
@@ -49,15 +48,28 @@ class ItemViewActivity : AppCompatActivity(), ItemAdapter.StorageItemClickListen
     override fun onStorageItemCreated(newItem: StorageItem) {
         thread {
             database.storageItemDao().insert(newItem)
-
-            runOnUiThread {
-                adapter.addItem(newItem)
+            if(newItem.category == category){
+                runOnUiThread {
+                    adapter.addItem(newItem)
+                }
             }
         }
     }
 
-    override fun onStorageItemEdited(item: StorageItem, oldCategory: String) {
-        TODO("Not yet implemented")
+    override fun onStorageItemEdited(item: StorageItem) {
+        thread {
+            database.storageItemDao().update(item)
+            if(item.category == category){
+                runOnUiThread {
+                    adapter.editItem(item)
+                }
+            }else{
+                runOnUiThread {
+                    adapter.deleteEditedItem()
+                }
+            }
+            Log.d("MainActivity", "StorageItem edit was successful")
+        }
     }
 
     private fun initRecyclerView() {
@@ -76,17 +88,27 @@ class ItemViewActivity : AppCompatActivity(), ItemAdapter.StorageItemClickListen
         }
     }
 
-    override fun onItemChanged(item: StorageItem, index: Int) {
-        thread {
-            database.storageItemDao().update(item)
-            Log.d("MainActivity", "StorageItem update was successful")
-        }
-    }
-
     override fun onItemDelete(item: StorageItem) {
         thread {
             database.storageItemDao().deleteItem(item)
-            Log.d("MainActivity", "StorageItem delete was successful")
+            Log.d("ItemViewActivity", "StorageItem delete was successful")
         }
+    }
+
+    override fun onItemClicked(item: StorageItem) {
+        val intentItem = Intent()
+
+        intentItem.setClass(this, ItemActivity::class.java)
+        intentItem.putExtra(KEY_ITEM, item)
+        startActivity(intentItem)
+    }
+
+    fun showStorageItemDialog(itemToEdit: StorageItem){
+        val editItemDialog = StorageItemDialogFragment()
+
+        val bundle = Bundle()
+        bundle.putSerializable(KEY_ITEM_TO_EDIT, itemToEdit)
+        editItemDialog.arguments = bundle
+        editItemDialog.show(supportFragmentManager, StorageItemDialogFragment.TAG_EDIT)
     }
 }

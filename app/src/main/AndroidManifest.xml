@@ -10,9 +10,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.StorageManager">
         <activity
+            android:name=".ItemActivity"
+            android:exported="false" />
+        <activity
             android:name=".ItemViewActivity"
             android:exported="false"
-            android:theme="@style/Theme.StorageManager"/>
+            android:theme="@style/Theme.StorageManager" />
         <activity
             android:name=".MainActivity"
             android:exported="true"

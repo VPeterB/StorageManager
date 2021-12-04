@@ -3,12 +3,10 @@ package hu.bme.aut.storagemanager.adapter
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.annotation.IntegerRes
-import androidx.annotation.NonNull
 import androidx.recyclerview.widget.RecyclerView
 import hu.bme.aut.storagemanager.MainActivity
 import hu.bme.aut.storagemanager.data.StorageItem
-import hu.bme.aut.storagemanager.databinding.CategoryStorageBinding
+import hu.bme.aut.storagemanager.databinding.ItemStorageBinding
 
 class StorageAdapter(private val listener: StorageItemClickListener) :
     RecyclerView.Adapter<StorageAdapter.StorageViewHolder>() {
@@ -19,14 +17,14 @@ class StorageAdapter(private val listener: StorageItemClickListener) :
     private var editIndex = -1
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = StorageViewHolder(
-        CategoryStorageBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        ItemStorageBinding.inflate(LayoutInflater.from(parent.context), parent, false)
     )
 
     override fun onBindViewHolder(holder: StorageViewHolder, position: Int) {
         val storageItem = items[position]
         categories.add(storageItem.category)
 
-        holder.binding.tvCategory.text = storageItem.category
+        holder.binding.tvText.text = storageItem.category
         holder.itemView.setOnClickListener{
             listener.onItemClicked(storageItem)
         }
@@ -93,5 +91,5 @@ class StorageAdapter(private val listener: StorageItemClickListener) :
         fun onItemClicked(item: StorageItem)
     }
 
-    inner class StorageViewHolder(val binding: CategoryStorageBinding) : RecyclerView.ViewHolder(binding.root)
+    inner class StorageViewHolder(val binding: ItemStorageBinding) : RecyclerView.ViewHolder(binding.root)
 }

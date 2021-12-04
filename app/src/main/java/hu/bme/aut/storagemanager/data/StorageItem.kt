@@ -3,7 +3,6 @@ package hu.bme.aut.storagemanager.data
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import androidx.room.TypeConverter
 import java.io.Serializable
 
 @Entity(tableName = "storageitem")
