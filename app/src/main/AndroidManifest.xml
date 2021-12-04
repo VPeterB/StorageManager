@@ -8,18 +8,18 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.StorageManager">
+        android:theme="@style/Theme">
         <activity
             android:name=".ItemActivity"
             android:exported="false" />
         <activity
             android:name=".ItemViewActivity"
             android:exported="false"
-            android:theme="@style/Theme.StorageManager" />
+            android:theme="@style/Theme.NoActionBar" />
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:theme="@style/Theme.StorageManager">
+            android:theme="@style/Theme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
