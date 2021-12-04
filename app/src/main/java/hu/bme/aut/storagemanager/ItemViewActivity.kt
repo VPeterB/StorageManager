@@ -16,7 +16,6 @@ class ItemViewActivity : AppCompatActivity(), ItemAdapter.StorageItemClickListen
     companion object{
         const val KEY_ITEM_TO_EDIT = "KEY_ITEM_TO_EDIT"
         const val KEY_ITEM = "KEY_ITEM"
-        const val KEY_ITEM_NAME = "KEY_ITEM_NAME"
     }
     private lateinit var binding: ActivityItemViewBinding
 
