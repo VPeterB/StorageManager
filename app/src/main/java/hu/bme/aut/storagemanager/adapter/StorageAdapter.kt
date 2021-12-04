@@ -71,16 +71,27 @@ class StorageAdapter(private val listener: StorageItemClickListener) :
         notifyDataSetChanged()
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun editItem(item: StorageItem, oldCategory: String){
-        categories.remove(oldCategory)
-        categories.add(item.category)
-        for(i in allItems){
-            if(i.category == oldCategory)
-                i.category = item.category
+        if(!categories.contains(item.category)){
+            categories.remove(oldCategory)
+            categories.add(item.category)
+            for(i in allItems){
+                if(i.category == oldCategory)
+                    i.category = item.category
+            }
+            val index = editIndex
+            items[index] = item
+            notifyItemChanged(index)
+        }else{
+            categories.remove(oldCategory)
+            for(i in allItems){
+                if(i.category == oldCategory)
+                    i.category = item.category
+            }
+            items.remove(item)
+            notifyDataSetChanged()
         }
-        val index = editIndex
-        items[index] = item
-        notifyItemChanged(index)
     }
 
     private fun setEditIndex(index: Int){
