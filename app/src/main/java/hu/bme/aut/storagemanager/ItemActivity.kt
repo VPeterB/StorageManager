@@ -16,11 +16,11 @@ class ItemActivity : AppCompatActivity() {
         val item = intent.getSerializableExtra(KEY_ITEM) as StorageItem
 
         binding = ActivityItemBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
 
         binding.tvName.text = item.name
         binding.tvCategory.text = item.category
         binding.tvDescription.text = item.description
-
-        setContentView(binding.root)
     }
 }

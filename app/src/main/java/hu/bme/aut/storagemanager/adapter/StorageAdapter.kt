@@ -61,9 +61,12 @@ class StorageAdapter(private val listener: StorageItemClickListener) :
         val cat = item.category
         categories.remove(cat)
         items.remove(item)
-        for(i in allItems){
-            if(i.category == cat)
-                allItems.remove(i)
+        val iterator = allItems.iterator()
+        while(iterator.hasNext()){
+            val i = iterator.next()
+            if(i.category == cat){
+                iterator.remove()
+            }
         }
         notifyDataSetChanged()
     }
