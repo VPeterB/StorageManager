@@ -1,5 +1,5 @@
 # StorageManager
-Android hf
+BME - Mobil- és webes szoftverek - Android házi feladat
 
 ## Bemutatás
 Az alkalmazás raktár elemek kezelésére szolgál. Az alkalmazásban vannak raktár elem kategóriák, ezeken belül a kategóriába tartozó elemek. A felhasználó ezeket tudja megtekinteni, törölni, módosítani és bővíteni új elemekkel.
